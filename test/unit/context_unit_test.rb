@@ -469,7 +469,7 @@ class ContextUnitTest < Minitest::Test
 
     refute mock_any.has_been_called?
     assert mock_empty.has_been_called?
-  end 
+  end
 
   def test_variable_lookup_caches_markup
     mock_scan = Spy.on_instance_method(String, :scan).and_return(["string"])
@@ -488,5 +488,17 @@ class ContextUnitTest < Minitest::Test
     assert_nil contx['poutine']
   end
 
+  def test_apply_global_filter
+    global_filter_proc = ->(output) { "#{output} filtered" }
 
+    context = Context.new
+    context.global_filter = global_filter_proc
+
+    assert_equal 'hi filtered', context.apply_global_filter('hi')
+  end
+
+  def test_apply_global_filter_when_no_global_filter_exist
+    context = Context.new
+    assert_equal 'hi', context.apply_global_filter('hi')
+  end
 end # ContextTest

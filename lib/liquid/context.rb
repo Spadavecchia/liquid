@@ -14,7 +14,7 @@ module Liquid
   #   context['bob']  #=> nil  class Context
   class Context
     attr_reader :scopes, :errors, :registers, :environments, :resource_limits
-    attr_accessor :exception_handler
+    attr_accessor :exception_handler, :template_name, :partial, :global_filter
 
     def initialize(environments = {}, outer_scope = {}, registers = {}, rethrow_errors = false, resource_limits = nil)
       @environments     = [environments].flatten
@@ -35,6 +35,7 @@ module Liquid
 
       @interrupts = []
       @filters = []
+      @global_filter = nil
     end
 
     def increment_used_resources(key, obj)
@@ -63,6 +64,10 @@ module Liquid
       filters = [filters].flatten.compact
       @filters += filters
       @strainer = nil
+    end
+
+    def apply_global_filter(obj)
+      global_filter.nil? ? obj : global_filter.call(obj)
     end
 
     # are there any not handled interrupts?
