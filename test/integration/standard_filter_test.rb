@@ -252,6 +252,8 @@ class StandardFiltersTest < Minitest::Test
 
     assert_equal nil, @filters.date(nil, "%B")
 
+    assert_equal '', @filters.date('', "%B")
+
     with_timezone("UTC") do
       assert_equal "07/05/2006", @filters.date(1152098955, "%m/%d/%Y")
       assert_equal "07/05/2006", @filters.date("1152098955", "%m/%d/%Y")
@@ -377,6 +379,21 @@ class StandardFiltersTest < Minitest::Test
 
   def test_cannot_access_private_methods
     assert_template_result('a',"{{ 'a' | to_number }}")
+  end
+
+  def test_date_raises_nothing
+    assert_template_result('', "{{ '' | date: '%D' }}")
+    assert_template_result('abc', "{{ 'abc' | date: '%D' }}")
+  end
+
+  private
+
+  def with_timezone(tz)
+    old_tz = ENV['TZ']
+    ENV['TZ'] = tz
+    yield
+  ensure
+    ENV['TZ'] = old_tz
   end
 
   def test_date_raises_nothing
