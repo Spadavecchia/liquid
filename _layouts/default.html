@@ -28,9 +28,11 @@
               <h3 class="section__header">{{ section_title | capitalize }}</h3>
               <ul class="section__links">
                 {% for doc in site.collections[section_title].docs %}
-                  <li>
-                    <a href="{{ doc.url }}" class="section__link {% if doc.title == page.title %}section__link--is-active{% endif %}">{{ doc.title }}</a>
-                  </li>
+                  {% unless doc.title contains "Home" %}
+                    <li>
+                      <a href="/{{ collection[0] }}#{{ doc.title }}" class="section__link">{{ doc.title }}</a>
+                    </li>
+                  {% endunless %}
                 {% endfor %}
               </ul>
             </li>
@@ -41,7 +43,7 @@
 
     <div class="content__area">
       <div class="content__wrapper">
-        <h1>{% unless page.url == "/index.html" %}{{ page.collection | capitalize }} &rarr; {% endunless %} {{ page.title }}</h1>
+        <h1>{{ page.title }}</h1>
         <div class="content">
           {{ content }}
         </div>
