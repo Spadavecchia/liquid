@@ -12,5 +12,6 @@ Benchmark.ips do |x|
   puts "Running benchmark for #{x.time} seconds (with #{x.warmup} seconds warmup)."
   puts
 
-  x.report("parse:") { profiler.compile }
+  x.report("parse:") { profiler.parse }
+  x.report("parse and render:") { profiler.parse_and_render }
 end

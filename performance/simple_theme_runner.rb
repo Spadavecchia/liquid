@@ -10,8 +10,13 @@ class SimpleThemeRunner
     @test = File.read(__dir__ + '/tests/simple/simple.liquid')
   end
 
-  def compile
+  def parse
     tmpl = Liquid::Template.new
     tmpl.parse(@test)
+  end
+
+  def parse_and_render
+    tmpl = Liquid::Template.new
+    tmpl.parse(@test).render!()
   end
 end
