@@ -71,6 +71,11 @@ namespace :benchmark do
   task :strict do
     ruby "./performance/benchmark.rb strict"
   end
+
+  desc "Run short version of liquid benchmark"
+  task :simple do
+    ruby "./performance/simple_benchmark.rb"
+  end
 end
 
 namespace :profile do
