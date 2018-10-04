@@ -76,6 +76,11 @@ namespace :benchmark do
   task :simple do
     ruby "./performance/simple_benchmark.rb"
   end
+
+  desc "Run benchmark for each tag"
+  task :tags do
+    ruby "./performance/parser_tags_benchmark.rb"
+  end
 end
 
 namespace :profile do
